@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     date TEXT,
     message TEXT,
     type TEXT,
-    amount INT,
+    amount INTEGER
 )
 ''')
 
