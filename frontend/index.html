@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoMo Dashboard</title>
+    <link rel="stylesheet" href="../frontend/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>MoMo Transactions Dashboard</h1>
+    </header>
+
+    <main class="container">
+      <section class="controls">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search by type or amount..."
+        />
+        <button id="reloadBtn">🔄 Reload</button>
+        <button onclick="uploadXML()">📁 Upload XML</button>
+        <input
+          type="file"
+          id="xmlFile"
+          style="display: none"
+          accept=".xml"
+          onchange="handleXMLUpload(event)"
+        />
+      </section>
+
+      <section class="data-table">
+        <table id="transactions">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Message</th>
+              <th>Type</th>
+              <th>Amount (RWF)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section class="charts">
+        <div class="chart-container">
+          <h2>Transaction Types</h2>
+          <canvas id="typeChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <h2>Monthly Transactions</h2>
+          <canvas id="monthlyChart"></canvas>
+        </div>
+      </section>
+    </main>
+    <script defer src="../frontend/script.js"></script>
+
+    <footer>
+      <p>&copy; 2025 MoMo Dashboard. Built by Iradukunda Ibrahim.</p>
+    </footer>
+  </body>
+</html>

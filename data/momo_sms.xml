@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smses count="3">
+  <sms protocol="0" address="MTN" date="1622505600000" type="1" body="You have received RWF 10,000 from 0788XXXXXX. New balance is RWF 20,000." amount="20,000"/>
+  <sms protocol="0" address="MTN" date="1622592000000" type="1" body="You have sent RWF 5,000 to 0787YYYYYY. New balance is RWF 15,000." amount="15,000"/>
+  <sms protocol="0" address="MTN" date="1622678400000" type="1" body="You have withdrawn RWF 3,000. New balance is RWF 12,000." amount="12,000" />
+</smses>
