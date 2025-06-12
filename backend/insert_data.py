@@ -1,8 +1,19 @@
-from process_sms import parse_sms
+from process_sms import parse_sms_messages
 import sqlite3
+import os
+
+# Path to XML file (adjust as needed)
+XML_PATH = '../data/momo_sms.xml'
+
+# Ensure XML file exists
+if not os.path.exists(XML_PATH):
+    print(f"Error: XML file not found at {XML_PATH}")
+    exit(1)
 
 # Parse data from XML
-data = parse_sms('../data/momo_sms.xml')  # make sure path is correct
+with open(XML_PATH, 'r', encoding='utf-8') as file:
+    content = file.read()
+    data = parse_sms_messages(content)
 
 # Connect to DB
 conn = sqlite3.connect('momo.db')
@@ -16,3 +27,4 @@ cursor.executemany(
 
 conn.commit()
 conn.close()
+print(f"Successfully inserted {len(data)} transactions into the database")

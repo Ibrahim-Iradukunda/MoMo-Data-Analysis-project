@@ -1,43 +1,12 @@
 from flask import Flask, request, jsonify
-import sqlite3
 from flask_cors import CORS
-import xml.etree.ElementTree as ET
-from datetime import datetime
-import re
+from process_sms import parse_sms_messages
+import sqlite3
 
 app = Flask(__name__)
 CORS(app)
 
 DB_PATH = 'momo.db'
-
-def parse_sms_messages(content):
-    root = ET.fromstring(content)
-    transactions = []
-
-    for sms in root.findall('sms'):
-        body = sms.get('body', '')
-        date_ms = int(sms.get('date', '0'))
-        date_str = datetime.fromtimestamp(date_ms / 1000).strftime('%Y-%m-%d %H:%M:%S') if date_ms else datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        # Determine transaction type
-        if 'received' in body.lower():
-            transaction_type = 'Received'
-        elif 'withdrawn' in body.lower():
-            transaction_type = 'Withdrawal'
-        elif 'payment' in body.lower():
-            transaction_type = 'Payment'
-        elif 'airtime' in body.lower() or 'bundle' in body.lower():
-            transaction_type = 'Airtime'
-        else:
-            transaction_type = 'Other'
-
-        # Extract amount
-        amount_match = re.search(r'(\d{1,3}(?:,\d{3})*|\d+)\s*RWF', body)
-        amount = int(amount_match.group(1).replace(',', '')) if amount_match else None
-
-        transactions.append((date_str, body, transaction_type, amount))
-
-    return transactions
 
 def insert_messages_into_db(transactions):
     conn = sqlite3.connect(DB_PATH)
@@ -51,26 +20,32 @@ def upload_xml():
     file = request.files.get('file')
     if not file:
         return jsonify({'message': 'No file provided'}), 400
+    if not file.filename.endswith('.xml'):
+        return jsonify({'message': 'Invalid file type. Please upload an XML file'}), 400
 
-    content = file.read()
     try:
-        messages = parse_sms_messages(content)
-        insert_messages_into_db(messages)
-        return jsonify({'message': 'File uploaded and processed successfully'})
+        content = file.read().decode('utf-8')
+        transactions = parse_sms_messages(content)
+        if not transactions:
+            return jsonify({'message': 'No valid transactions found in the file'}), 400
+        insert_messages_into_db(transactions)
+        return jsonify({'message': f'Successfully processed {len(transactions)} transactions'})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': f'Failed to process file: {str(e)}'}), 500
 
 @app.route('/data', methods=['GET'])
 def get_data():
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute('SELECT * FROM transactions')
-    rows = c.fetchall()
-    columns = [description[0] for description in c.description]
-    conn.close()
-
-    data = [dict(zip(columns, row)) for row in rows]
-    return jsonify(data)
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute('SELECT id, date, message, type, amount FROM transactions')
+        rows = cursor.fetchall()
+        columns = [description[0] for description in cursor.description]
+        conn.close()
+        data = [dict(zip(columns, row)) for row in rows]
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({'error': f'Failed to fetch data: {str(e)}'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

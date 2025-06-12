@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MoMo Dashboard</title>
-    <link rel="stylesheet" href="../frontend/style.css" />
+    <title>MoMo Transactions Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
@@ -17,7 +17,7 @@
         <input
           type="text"
           id="searchInput"
-          placeholder="Search by type or amount..."
+          placeholder="Search by date (YYYY-MM-DD) or type..."
         />
         <button id="reloadBtn">🔄 Reload</button>
         <button onclick="uploadXML()">📁 Upload XML</button>
@@ -28,6 +28,17 @@
           accept=".xml"
           onchange="handleXMLUpload(event)"
         />
+      </section>
+
+      <section class="charts">
+        <div class="chart-container">
+          <h2>Transaction Types</h2>
+          <canvas id="typeChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <h2>Monthly Transactions</h2>
+          <canvas id="monthlyChart"></canvas>
+        </div>
       </section>
 
       <section class="data-table">
@@ -42,23 +53,18 @@
           </thead>
           <tbody></tbody>
         </table>
-      </section>
-
-      <section class="charts">
-        <div class="chart-container">
-          <h2>Transaction Types</h2>
-          <canvas id="typeChart"></canvas>
-        </div>
-        <div class="chart-container">
-          <h2>Monthly Transactions</h2>
-          <canvas id="monthlyChart"></canvas>
+        <div class="pagination">
+          <button id="prevPage" disabled>Previous</button>
+          <span id="pageInfo"></span>
+          <button id="nextPage">Next</button>
         </div>
       </section>
     </main>
-    <script defer src="../frontend/script.js"></script>
+
+    <script defer src="script.js"></script>
 
     <footer>
-      <p>&copy; 2025 MoMo Dashboard. Built by Iradukunda Ibrahim.</p>
+      <p>© 2025 MoMo Dashboard. Built by Iradukunda Ibrahim.</p>
     </footer>
   </body>
 </html>
