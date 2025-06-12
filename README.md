@@ -195,10 +195,10 @@ MIT License — see `LICENSE` file for details
 
 👥 Contributors
 
-Ibrahim IRADUKUNDA –-- i.ibrahim@alustudent.com
-Benjamin NIYOMUKIZA –-- b.niyomukiz@alustudent.com
-Allan HIRWA NDAMUKUNDA –-- h.allan@alustudent.com
-Benigne UWITONZE --- b.uwitonze@alustudent.com
+* Ibrahim IRADUKUNDA –-- i.ibrahim@alustudent.com
+* Benjamin NIYOMUKIZA –-- b.niyomukiz@alustudent.com
+* Allan HIRWA NDAMUKUNDA –-- h.allan@alustudent.com
+* Benigne UWITONZE --- b.uwitonze@alustudent.com
 
 
 
