@@ -1,142 +1,192 @@
-MoMo Data Analysis Project
-Welcome to the MoMo Data Analysis Project! This application allows you to analyze mobile money (MoMo) transaction data, visualize transaction types and monthly trends, and filter transactions by date and type with pagination. The project includes a backend API, a frontend dashboard, and automated startup scripts.
-Project Structure
+# MoMo Data Analysis Project
+
+Welcome to the **MoMo Data Analysis Project**! This application helps you analyze mobile money (MoMo) transaction data. It allows you to visualize transaction types, explore monthly trends, and filter transactions with pagination support.
+
+---
+
+## 🗂️ Project Structure
+
+```
 MoMo-Data-Analysis-project/
-├── backend/              # Contains Flask backend files
-│   ├── app.py           # Main Flask application
-│   ├── create_db.py     # Initializes the SQLite database
-│   ├── insert_data.py   # Loads transaction data from XML
-│   ├── momo.db          # SQLite database file
-│   └── process_sms.py   # Processes SMS transaction data
-├── data/                # Directory for transaction XML files
-│   └── momo_sms_test.xml # Sample transaction data (optional)
-├── frontend/            # Contains frontend files
-│   ├── index.html       # Main HTML file for the dashboard
-│   ├── script.js        # JavaScript for interactivity and charts
-│   └── style.css        # CSS for styling
-├── README.md            # This file
-├── start_project.py     # Script to start backend, frontend, and open browser
-└── venv/                # Virtual environment for dependencies
+├── backend/               # Flask backend
+│   ├── app.py             # Main Flask application
+│   ├── create_db.py       # Initializes the SQLite database
+│   ├── insert_data.py     # Loads XML transaction data into the DB
+│   ├── momo.db            # SQLite database file
+│   └── process_sms.py     # Parses and processes SMS XML
+├── data/                  # XML files directory
+│   └── momo_sms_test.xml  # Sample data (optional)
+├── frontend/              # Dashboard files
+│   ├── index.html         # Frontend UI
+│   ├── script.js          # Logic and interactivity
+│   └── style.css          # Styling
+├── README.md              # This file
+├── start_project.py       # Automation script
+└── venv/                  # Python virtual environment
+```
 
-How the System Works
+---
 
-Backend: A Flask server (running on http://127.0.0.1:5000/) provides APIs to fetch and upload transaction data stored in a SQLite database (momo.db). It processes XML files containing SMS transaction records.
-Frontend: A web dashboard (running on http://0.0.0.0:8000/) displays transaction data in a table, with charts for transaction types and monthly trends. It supports searching by date or type and paginates results (5 transactions per page).
-Data: Transactions are loaded from XML files (e.g., momo_sms_test.xml) with details like date, type (Airtime, Payment, Received, Deposit, Withdrawal, Other), amount, and balance.
-Automation: The start_project.py script launches the backend, starts the frontend server, and automatically opens the browser to the dashboard.
+## 🔄 How the System Works
 
-Prerequisites
+### Backend
 
-Python 3.13 or later (check with python3 --version)
-pip (Python package manager)
-git (optional, for version control)
-Internet connection (for initial dependency installation)
+* Powered by **Flask** at `http://127.0.0.1:5000/`
+* Loads and processes SMS data from XML files
+* Stores transactions in a **SQLite** database
 
-Installation
+### Frontend
 
-Clone or Download the Project:
+* Runs at `http://0.0.0.0:8000/`
+* Displays:
 
-If using git, run:
+  * Table of transactions
+  * Pie chart of transaction types
+  * Bar chart of monthly activity
+* Supports:
+
+  * Date/type search
+  * Pagination (5 per page)
+  * Upload of new XML files
+
+### Automation
+
+The script `start_project.py`:
+
+* Starts backend and frontend
+* Opens your browser to the dashboard
+
+---
+
+## 🚀 Prerequisites
+
+* Python 3.13+
+* pip
+* git (optional)
+* Internet (for installing packages)
+
+---
+
+## 🔧 Installation
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/Ibrahim-Iradukunda/MoMo-Data-Analysis-project.git
 cd MoMo-Data-Analysis-project
+```
 
+### 2. Set Up a Virtual Environment
 
-
-
-Set Up Virtual Environment:
-cd /home/pc usename/MoMo-Data-Analysis-project
+```bash
 python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate
+# For Windows: venv\Scripts\activate
+```
 
+### 3. Install Dependencies
 
-Install Dependencies:
+```bash
 pip install flask flask-cors requests
+```
 
+### 4. Initialize the Database
 
-Initialize the Database:
+```bash
 cd backend
 python3 create_db.py
+```
 
+### 5. (Optional) Load Sample Data
 
-Add Sample Data (Optional):
+* Put your XML file in `data/momo_sms_test.xml`
+* Make sure `insert_data.py` references the correct path:
 
-Place the momo_sms_test.xml file in the data/ directory (create it if it doesn’t exist).
+  ```python
+  XML_PATH = '../data/momo_sms_test.xml'
+  ```
+* Then run:
 
-Load the data:
-python3 insert_data.py
+  ```bash
+  python3 insert_data.py
+  ```
 
+---
 
-Ensure XML_PATH in insert_data.py is set to ../data/momo_sms_test.xml.
+## 🚪 Running the Project
 
-
-
-
-Running the Project
-
-Activate the Virtual Environment:
-cd /home/pc_username/MoMo-Data-Analysis-project
+```bash
+cd /path/to/MoMo-Data-Analysis-project
 source venv/bin/activate
-
-
-Start the Project:
 python3 start_project.py
+```
 
+* Backend: `http://127.0.0.1:5000/`
+* Frontend: `http://0.0.0.0:8000/`
 
-This script:
-Starts the Flask backend on http://127.0.0.1:5000/.
-Starts the frontend server on http://0.0.0.0:8000/.
-Automatically opens your default browser to http://0.0.0.0:8000/.
+---
 
+## 📊 Using the Dashboard
 
-You should see the dashboard with transaction data (if pre-loaded) and charts.
+* **Search** by date (`2025-06-12`) or type (`Airtime`, `Payment`, etc.)
+* **Pagination**: 5 transactions per page
+* **Upload XML**: Click 📁 to update data
+* **Charts**:
 
+  * Pie: Transaction types
+  * Bar: Monthly trends
 
-Using the Dashboard:
+---
 
-Search: Enter a date (e.g., "2025-06-12") or transaction type (e.g., "Airtime") in the search bar to filter results.
-Pagination: Use "Previous" and "Next" buttons to navigate through pages (5 transactions per page).
-Upload Data: Click "📁 Upload XML" to select a new XML file (e.g., momo_sms_test.xml) to update the data. An alert will confirm the data is saved.
-Charts: View the Pie chart for transaction types and Bar chart for monthly trends.
+## ❌ Troubleshooting
 
+### "python3: not found"
 
-Stop the Project:
+* Check with: `which python3`
+* Update `start_project.py` with full Python path if needed
+* Or install Python:
 
-Press Ctrl+C in the terminal to stop the script and close the servers.
+  ```bash
+  sudo apt update && sudo apt install python3
+  ```
 
+### Port Conflicts
 
+* Modify ports in `app.py` and `start_project.py` (e.g., use 5001/8001)
 
-Troubleshooting
+### Data Not Loading?
 
-"python3: not found":
+* Ensure XML file is placed correctly
+* Confirm `XML_PATH` is correct in `insert_data.py`
 
-Check the Python 3 path with which python3 (e.g., /usr/bin/python3). Update start_project.py to use the full path if needed.
-Install Python 3 if missing: sudo apt update && sudo apt install python3.
+### Browser Not Opening?
 
+* Open manually:
 
-Port Conflicts:
+  * `http://localhost:8000/` or `http://127.0.0.1:8000/`
 
-If port 5000 or 8000 is in use, change them in app.py and start_project.py (e.g., to 5001 and 8001) and update webbrowser.open().
+---
 
+## 🙌 Contributing
 
-Data Not Loading:
+* Fork the repo
+* Create a new branch
+* Commit your changes
+* Submit a pull request
+* Report bugs on GitHub
 
-Ensure momo_sms_test.xml is in the data/ directory and matches the expected format.
-Check insert_data.py for the correct XML_PATH.
+---
 
+## 📄 License
 
-Browser Not Opening:
+MIT License — see `LICENSE` file for details
 
-Manually open http://localhost:8000/ or http://127.0.0.1:8000/ if 0.0.0.0 fails.
+---
 
+## 🚀 Built With
 
+* [Flask](https://flask.palletsprojects.com/)
+* [Chart.js](https://www.chartjs.org/)
+* Python 3.13+
 
-Contributing
-Feel free to fork this repository, make improvements, and submit pull requests. Report issues on the GitHub page.
-License
-This project is licensed under the MIT License - see the LICENSE file for details (add a LICENSE file if desired).
-Acknowledgments
-
-Built with Flask, Chart.js, and Python 3.13.
-Inspired by mobile money transaction analysis needs.
-
-
+> Inspired by the growing need to analyze and understand mobile money transactions efficiently.
