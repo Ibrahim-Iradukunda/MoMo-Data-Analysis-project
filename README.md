@@ -192,3 +192,13 @@ MIT License — see `LICENSE` file for details
 * Python 3.13+
 
 > Inspired by the growing need to analyze and understand mobile money transactions efficiently.
+
+👥 Contributors
+
+Ibrahim IRADUKUNDA –-- i.ibrahim@alustudent.com
+Benjamin NIYOMUKIZA –-- b.niyomukiz@alustudent.com
+Allan HIRWA NDAMUKUNDA –-- h.allan@alustudent.com
+Benigne UWITONZE --- b.uwitonze@alustudent.com
+
+
+
