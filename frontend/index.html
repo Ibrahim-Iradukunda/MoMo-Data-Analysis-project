@@ -5,11 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MoMo Transactions Dashboard</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
     <header>
-      <h1>MoMo Transactions Dashboard</h1>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          justify-content: left;
+        "
+      >
+        <img src="logo mtn.png" alt="MoMo Logo" style="height: 40px" />
+        <h1>MoMo Transactions Dashboard</h1>
+      </div>
     </header>
 
     <main class="container">
@@ -29,15 +44,42 @@
           onchange="handleXMLUpload(event)"
         />
       </section>
-
-      <section class="charts">
-        <div class="chart-container">
-          <h2>Transaction Types</h2>
-          <canvas id="typeChart"></canvas>
+      <section class="cards">
+        <div class="card" data-type="All">
+          <i class="fas fa-list fa-2x"></i><br />All
         </div>
-        <div class="chart-container">
-          <h2>Monthly Transactions</h2>
-          <canvas id="monthlyChart"></canvas>
+        <div class="card" data-type="Received">
+          <i class="fas fa-arrow-down fa-2x text-success"></i><br />Incoming
+        </div>
+        <div class="card" data-type="Payment">
+          <i class="fas fa-file-invoice-dollar fa-2x text-info"></i
+          ><br />Payment
+        </div>
+        <div class="card" data-type="Transfer">
+          <i class="fas fa-share-square fa-2x text-warning"></i><br />Transfers
+        </div>
+        <div class="card" data-type="Deposit">
+          <i class="fas fa-piggy-bank fa-2x text-primary"></i><br />Bank Deposit
+        </div>
+        <div class="card" data-type="Airtime">
+          <i class="fas fa-mobile-alt fa-2x text-secondary"></i
+          ><br />Airtime/Bills
+        </div>
+        <div class="card" data-type="CashPower">
+          <i class="fas fa-bolt fa-2x text-warning"></i><br />Cash Power
+        </div>
+        <div class="card" data-type="ThirdParty">
+          <i class="fas fa-link fa-2x text-muted"></i><br />Third Parties
+        </div>
+        <div class="card" data-type="Withdrawal">
+          <i class="fas fa-money-bill-wave fa-2x text-danger"></i
+          ><br />Withdrawal
+        </div>
+        <div class="card" data-type="BankTransfer">
+          <i class="fas fa-university fa-2x text-dark"></i><br />Bank Transfer
+        </div>
+        <div class="card" data-type="Bundle">
+          <i class="fas fa-wifi fa-2x text-primary"></i><br />Bundles
         </div>
       </section>
 
@@ -59,12 +101,25 @@
           <button id="nextPage">Next</button>
         </div>
       </section>
+
+      <section class="charts">
+        <div class="chart-container">
+          <h2>📊 Analytics</h2>
+          <h2>Transaction Types</h2>
+          <canvas id="typeChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <h2>📊 Analytics</h2>
+          <h2>Monthly Transactions</h2>
+          <canvas id="monthlyChart"></canvas>
+        </div>
+      </section>
     </main>
 
     <script defer src="script.js"></script>
 
     <footer>
-      <p>© 2025 MoMo Dashboard. Built by Iradukunda Ibrahim.</p>
+      <p>© 2025 MoMo Dashboard. All rights reserved .</p>
     </footer>
   </body>
 </html>

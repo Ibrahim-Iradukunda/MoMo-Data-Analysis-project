@@ -188,3 +188,23 @@ document.getElementById("reloadBtn").addEventListener("click", () => {
 });
 
 window.onload = fetchData;
+
+
+
+
+
+// Highlight active card and filter
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    const selectedType = card.dataset.type;
+
+    // Highlight selected card
+    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+    card.classList.add("active");
+
+    // Update search input with type (except "All")
+    document.getElementById("searchInput").value = selectedType === "All" ? "" : selectedType;
+    currentPage = 1;
+    populateTable(allData);
+  });
+});
