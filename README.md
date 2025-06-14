@@ -70,34 +70,30 @@ The script `start_project.py`:
 
 ---
 
-## 🔧 Installation
+## 🔧 Installation & Run
 
 ### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Ibrahim-Iradukunda/MoMo-Data-Analysis-project.git
+```
+
+### 2. Navigate into the project directory
+
+```bash
 cd MoMo-Data-Analysis-project
 ```
 
-### 2. Set Up a Virtual Environment
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-# For Windows: venv\Scripts\activate
-```
-
-### 3. Install Dependencies
+### 3. Install Required Packages
 
 ```bash
 pip install flask flask-cors requests
 ```
 
-### 4. Initialize the Database
+### 4. Run the App
 
 ```bash
-cd backend
-python3 create_db.py
+python start_project.py
 ```
 
 ### 5. (Optional) Load Sample Data
