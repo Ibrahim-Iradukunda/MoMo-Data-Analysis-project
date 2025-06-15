@@ -1,6 +1,6 @@
 # MoMo Data Analysis Project
 
-Presentation's link :
+Presentation's link : `https://drive.google.com/file/d/15fR5F_Wak3I7MEr-xLB-24ibfzjRlPDV/view?usp=sharing`
 
 Welcome to the **MoMo Data Analysis Project**! This application helps you analyze mobile money (MoMo) transaction data. It allows you to visualize transaction types, explore monthly trends, and filter transactions with pagination support.
 
@@ -17,7 +17,7 @@ MoMo-Data-Analysis-project/
 │   ├── momo.db            # SQLite database file
 │   └── process_sms.py     # Parses and processes SMS XML
 ├── data/                  # XML files directory
-│   └── momo_sms_test.xml  # Sample data (optional)
+│   └── momo_sms.xml       # Sample data (optional)
 ├── frontend/              # Dashboard files
 │   ├── index.html         # Frontend UI
 │   ├── script.js          # Logic and interactivity
@@ -70,7 +70,7 @@ The script `start_project.py`:
 
 ---
 
-## 🔧 Installation & Run
+## 🔧 Installation & Run step 1
 
 ### 1. Clone the Repository
 
@@ -90,19 +90,57 @@ cd MoMo-Data-Analysis-project
 pip install flask flask-cors requests
 ```
 
-### 4. Run the App
+### 4. Simply Run the App
 
 ```bash
 python start_project.py
 ```
 
+## 🔧 Installation & Run step 2
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Ibrahim-Iradukunda/MoMo-Data-Analysis-project.git
+```
+
+### 2. Navigate into the project directory
+
+```bash
+cd MoMo-Data-Analysis-project
+```
+
+### 2. Navigate into the backend directory
+
+```bash
+cd MoMo-Data-Analysis-project/backend
+```
+
+```bash
+rm momo.db
+```
+
+```bash
+python create_db.py
+```
+
+```bash
+python insert_data.py
+## Before inserting, use `momo_sms.xml` located in the `data` directory to guide you and avoid errors during the insertion process.
+```
+
+```bash
+python app.py
+## Then, head to your live server and open it in your browser.
+```
+
 ### 5. (Optional) Load Sample Data
 
-- Put your XML file in `data/momo_sms_test.xml`
+- Put your XML file in `data/momo_sms.xml`
 - Make sure `insert_data.py` references the correct path:
 
   ```python
-  XML_PATH = '../data/momo_sms_test.xml'
+  XML_PATH = '../data/momo_sms.xml'
   ```
 
 - Then run:
