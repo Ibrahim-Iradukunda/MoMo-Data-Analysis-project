@@ -1,6 +1,6 @@
 # MoMo Data Analysis Project
 
-**Presentation's link** : https://drive.google.com/file/d/15fR5F_Wak3I7MEr-xLB-24ibfzjRlPDV/view?usp=sharing
+**Presentation's link** : https://drive.google.com/file/d/1PyosdFjDj1IqDUTwDixJq7BSNiMPcRas/view?usp=sharing
 
 Welcome to the **MoMo Data Analysis Project**! This application helps you analyze mobile money (MoMo) transaction data. It allows you to visualize transaction types, explore monthly trends, and filter transactions with pagination support.
 
@@ -84,11 +84,14 @@ git clone https://github.com/Ibrahim-Iradukunda/MoMo-Data-Analysis-project.git
 cd MoMo-Data-Analysis-project
 ```
 
-### 3 . seting  up  venv  environment 
-```bash 
+### 3 . seting up venv environment
+
+```bash
 python3 -m venv myenv
 ```
+
 ### 4. Activate the venv
+
 ```bash
    source myenv/bin/activate
 ```
@@ -98,7 +101,6 @@ python3 -m venv myenv
 ```bash
 pip install flask flask-cors requests
 ```
-
 
 ### 6. Simply Run the App
 
