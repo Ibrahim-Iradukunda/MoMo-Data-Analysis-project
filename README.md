@@ -8,7 +8,7 @@ Welcome to the **MoMo Data Analysis Project**! This application helps you analyz
 
 ---
 
-## 🗂️ Project Structureeee
+## 🗂️ Project Structure
 
 ```
 MoMo-Data-Analysis-project/
