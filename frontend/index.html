@@ -7,119 +7,206 @@
     <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
-  <body>
-    <header>
+  <body class="bg-gray-100">
+    <header
+      class="bg-gradient-to-r from-yellow-500 to-blue-600 text-white shadow-lg"
+    >
       <div
-        style="
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          justify-content: left;
-        "
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
       >
-        <img src="logo mtn.png" alt="MoMo Logo" style="height: 40px" />
-        <h1>MoMo Transactions Dashboard</h1>
+        <div class="flex items-center gap-4">
+          <img src="logo mtn.png" alt="MoMo Logo" class="h-10 rounded-full" />
+          <h1 class="text-2xl font-bold">MoMo Transactions Dashboard</h1>
+        </div>
       </div>
     </header>
 
-    <main class="container">
-      <section class="controls">
+    <main class="container mx-auto px-4 py-8">
+      <!-- Tabs -->
+      <div class="bg-white rounded-lg shadow-sm mb-6">
+        <nav
+          class="flex overflow-x-auto space-x-8 px-6 border-b border-gray-200"
+        >
+          <button
+            id="tab-overview"
+            class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 active"
+          >
+            <i class="fas fa-chart-bar mr-2"></i>Dashboard
+          </button>
+          <button
+            id="tab-contacts"
+            class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300"
+          >
+            <i class="fas fa-users mr-2"></i>Contacts
+          </button>
+          <button
+            id="tab-patterns"
+            class="tab-button py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300"
+          >
+            <i class="fas fa-clock mr-2"></i>Time Formats
+          </button>
+        </nav>
+      </div>
+
+      <!-- Controls -->
+      <section
+        class="controls bg-white p-6 rounded-lg shadow-sm mb-6 flex flex-col sm:flex-row gap-4"
+      >
         <input
           type="text"
           id="searchInput"
           placeholder="Search by date (YYYY-MM-DD) or type..."
+          class="flex-grow p-2 border rounded-lg"
         />
-        <button id="reloadBtn">🔄 Reload</button>
-        <button onclick="uploadXML()">📁 Upload XML</button>
-        <input
-          type="file"
-          id="xmlFile"
-          style="display: none"
-          accept=".xml"
-          onchange="handleXMLUpload(event)"
-        />
-      </section>
-      <section class="cards">
-        <div class="card" data-type="All">
-          <i class="fas fa-list fa-2x"></i><br />All
-        </div>
-        <div class="card" data-type="Received">
-          <i class="fas fa-arrow-down fa-2x text-success"></i><br />Incoming
-        </div>
-        <div class="card" data-type="Payment">
-          <i class="fas fa-file-invoice-dollar fa-2x text-info"></i
-          ><br />Payment
-        </div>
-        <div class="card" data-type="Transfer">
-          <i class="fas fa-share-square fa-2x text-warning"></i><br />Transfers
-        </div>
-        <div class="card" data-type="Deposit">
-          <i class="fas fa-piggy-bank fa-2x text-primary"></i><br />Bank Deposit
-        </div>
-        <div class="card" data-type="Airtime">
-          <i class="fas fa-mobile-alt fa-2x text-secondary"></i
-          ><br />Airtime/Bills
-        </div>
-        <div class="card" data-type="CashPower">
-          <i class="fas fa-bolt fa-2x text-warning"></i><br />Cash Power
-        </div>
-        <div class="card" data-type="ThirdParty">
-          <i class="fas fa-link fa-2x text-muted"></i><br />Third Parties
-        </div>
-        <div class="card" data-type="Withdrawal">
-          <i class="fas fa-money-bill-wave fa-2x text-danger"></i
-          ><br />Withdrawal
-        </div>
-        <div class="card" data-type="BankTransfer">
-          <i class="fas fa-university fa-2x text-dark"></i><br />Bank Transfer
-        </div>
-        <div class="card" data-type="Bundle">
-          <i class="fas fa-wifi fa-2x text-primary"></i><br />Bundles
-        </div>
+        <button
+          id="reloadBtn"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        >
+          <i class="fas fa-sync-alt"></i> Reload
+        </button>
+        <label
+          class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 cursor-pointer"
+        >
+          <i class="fas fa-upload"></i> Upload XML
+          <input type="file" id="xmlFile" class="hidden" accept=".xml" />
+        </label>
       </section>
 
-      <section class="data-table">
-        <table id="transactions">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Message</th>
-              <th>Type</th>
-              <th>Amount (RWF)</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="pagination">
-          <button id="prevPage" disabled>Previous</button>
-          <span id="pageInfo"></span>
-          <button id="nextPage">Next</button>
-        </div>
-      </section>
+      <!-- Overview Tab -->
+      <div id="overview-content" class="tab-content">
+        <section
+          class="cards grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8"
+        >
+          <div class="card" data-type="All">
+            <i class="fas fa-list fa-2x"></i><br />All
+          </div>
+          <div class="card" data-type="Received">
+            <i class="fas fa-arrow-down fa-2x text-success"></i><br />Incoming
+          </div>
+          <div class="card" data-type="Payment">
+            <i class="fas fa-file-invoice-dollar fa-2x text-info"></i
+            ><br />Payment
+          </div>
+          <div class="card" data-type="Transfer">
+            <i class="fas fa-share-square fa-2x text-warning"></i
+            ><br />Transfers
+          </div>
+          <div class="card" data-type="Deposit">
+            <i class="fas fa-piggy-bank fa-2x text-primary"></i><br />Bank
+            Deposit
+          </div>
+          <div class="card" data-type="Airtime">
+            <i class="fas fa-mobile-alt fa-2x text-secondary"></i><br />Airtime
+          </div>
+          <div class="card" data-type="Bundle">
+            <i class="fas fa-wifi fa-2x text-primary"></i><br />Bundles
+          </div>
+          <div class="card" data-type="CashPower">
+            <i class="fas fa-bolt fa-2x text-warning"></i><br />Cash Power
+          </div>
+          <div class="card" data-type="Withdrawal">
+            <i class="fas fa-money-bill-wave fa-2x text-danger"></i
+            ><br />Withdrawal
+          </div>
+          <div class="card" data-type="ThirdParty">
+            <i class="fas fa-link fa-2x text-muted"></i><br />Third Parties
+          </div>
+          <div class="card" data-type="BankTransfer">
+            <i class="fas fa-university fa-2x text-dark"></i><br />Bank Transfer
+          </div>
+        </section>
 
-      <section class="charts">
-        <div class="chart-container">
-          <h2>📊 Analytics</h2>
-          <h2>Transaction Types</h2>
-          <canvas id="typeChart"></canvas>
+        <section class="data-table bg-white rounded-lg shadow-sm">
+          <div class="overflow-x-auto">
+            <table id="transactions" class="w-full border-collapse">
+              <thead>
+                <tr class="bg-blue-100">
+                  <th>Date</th>
+                  <th class="p-3 text-left">Message</th>
+                  <th>Type</th>
+                  <th>Amount (RWF)</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div class="p-4 flex justify-center gap-4 mt-4">
+              <button
+                id="prevPage"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
+                disabled
+              >
+                Previous
+              </button>
+              <span id="pageInfo"></span>
+              <button
+                id="nextPage"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="charts grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 mt-10"
+        >
+          <div class="chart-container bg-white p-6 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold mb-4">Transaction Types</h2>
+            <canvas id="typeChart"></canvas>
+          </div>
+          <div class="chart-container bg-white p-6 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold mb-4">Monthly Transactions</h2>
+            <canvas id="monthlyChart"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <!-- Contacts Tab -->
+      <div id="contacts-content" class="tab-content hidden">
+        <section class="bg-white p-6 rounded-lg shadow-sm">
+          <h2 class="text-lg font-semibold mb-4">Top Contacts</h2>
+          <div id="topContactsList" class="space-y-3"></div>
+        </section>
+      </div>
+
+      <!-- Time Patterns Tab -->
+      <div id="patterns-content" class="tab-content hidden">
+        <section class="bg-white p-6 rounded-lg shadow-sm">
+          <h2 class="text-lg font-semibold mb-4">
+            Hourly Transaction Overview
+          </h2>
+          <canvas id="hourlyChart"></canvas>
+        </section>
+      </div>
+
+      <!-- Modal -->
+      <div id="transactionModal" class="modal">
+        <div class="modal-content">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-gray-900">Transaction Details</h2>
+            <button
+              id="closeModal"
+              class="text-gray-400 hover:text-gray-600 text-2xl"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div id="modalContent"></div>
         </div>
-        <div class="chart-container">
-          <h2>📊 Analytics</h2>
-          <h2>Monthly Transactions</h2>
-          <canvas id="monthlyChart"></canvas>
-        </div>
-      </section>
+      </div>
     </main>
 
-    <script defer src="script.js"></script>
-
-    <footer>
-      <p>© 2025 MoMo Dashboard. All rights reserved .</p>
+    <footer class="bg-blue-900 text-white text-center p-4">
+      <p>© 2025 MoMo Dashboard. All rights reserved.</p>
     </footer>
+
+    <script src="script.js"></script>
   </body>
 </html>

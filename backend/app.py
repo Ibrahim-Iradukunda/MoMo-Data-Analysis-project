@@ -8,6 +8,21 @@ CORS(app)
 
 DB_PATH = 'momo.db'
 
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS transactions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT,
+            message TEXT,
+            type TEXT,
+            amount INTEGER
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
 def insert_messages_into_db(transactions):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -36,16 +51,45 @@ def upload_xml():
 @app.route('/data', methods=['GET'])
 def get_data():
     try:
+        page = int(request.args.get('page', 1))
+        per_page = int(request.args.get('per_page', 5))
+        search = request.args.get('search', '').lower()
+        
+        if page < 1 or per_page < 1:
+            return jsonify({'error': 'Invalid page or per_page value'}), 400
+
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute('SELECT id, date, message, type, amount FROM transactions')
+        
+        count_query = 'SELECT COUNT(*) FROM transactions WHERE date LIKE ? OR type LIKE ?'
+        cursor.execute(count_query, (f'%{search}%', f'%{search}%'))
+        total = cursor.fetchone()[0]
+        
+        offset = (page - 1) * per_page
+        data_query = '''
+            SELECT id, date, message, type, amount 
+            FROM transactions 
+            WHERE date LIKE ? OR type LIKE ?
+            LIMIT ? OFFSET ?
+        '''
+        cursor.execute(data_query, (f'%{search}%', f'%{search}%', per_page, offset))
         rows = cursor.fetchall()
         columns = [description[0] for description in cursor.description]
-        conn.close()
         data = [dict(zip(columns, row)) for row in rows]
-        return jsonify(data)
+        
+        conn.close()
+        
+        return jsonify({
+            'data': data,
+            'total': total,
+            'page': page,
+            'per_page': per_page
+        })
+    except ValueError:
+        return jsonify({'error': 'Invalid page or per_page parameter'}), 400
     except Exception as e:
         return jsonify({'error': f'Failed to fetch data: {str(e)}'}), 500
 
 if __name__ == '__main__':
+    init_db()
     app.run(debug=True, port=5000)
